@@ -1,8 +1,10 @@
 #ifndef PEPPERHEAD_H
 #define PEPPERHEAD_H
 
-# include <iostream>
-# include <alcommon/almodule.h>
+#include <iostream>
+
+#include <alcommon/almodule.h>
+#include <alproxies/almotionproxy.h>
 
 namespace AL
 {
@@ -13,26 +15,31 @@ namespace AL
 
 /**
  * This class inherits AL::ALModule. This allows it to bind methods
- * and be run as a remote executable within NAOqi
  */
 class Pepperhead : public AL::ALModule
 {
-public:
-    Pepperhead(boost::shared_ptr<AL::ALBroker> broker,
-               const std::string &name);
+    public:
+        Pepperhead(boost::shared_ptr<AL::ALBroker> broker,
+                   const std::string &name);
 
-    virtual ~Pepperhead();
+        virtual ~Pepperhead();
 
-    /**
-     * Overloading ALModule::init().
-     * This is called right after the module has been loaded
-     */
-    virtual void init();
+        /**
+         * Overloading ALModule::init().
+         * This is called right after the module has been loaded
+         */
+        virtual void init();
 
-    // After that you may add all your bind method.
+        // After that you may add all your bind method.
+        
+        // moves the head up and down - advertise this fcn to others
+        void moveHead();
 
-    // moves the head up and down
-    void moveHead();
+    private:
+        void setHeadStiffness(const float &value);
+
+        //AlMotionProxy to call commands from motion module on the robot
+        boost::shared_ptr<AL::ALMotionProxy> motion;
 };
 #endif // PEPPERHEAD_H
 

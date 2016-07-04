@@ -11,5 +11,5 @@ set(_srcs
 
 qi_create_lib(pepperhead SHARED ${_srcs} SUBFOLDER naoqi)
 
-qi_use_lib(pepperhead ALCOMMON ALPROXIES BOOST)
+qi_use_lib(pepperhead ALCOMMON ALPROXIES BOOST ALMEMORYFASTACCESS)
 
