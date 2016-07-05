@@ -4,7 +4,33 @@
 #include <iostream>
 
 #include <alcommon/almodule.h>
-#include <alproxies/almotionproxy.h>
+
+#include <alproxies/dcmproxy.h>
+#include <alproxies/almemoryproxy.h>
+#include <almemoryfastaccess/almemoryfastaccess.h>
+
+enum jointSensorID {
+    HEAD_PITCH       = 0,
+    HEAD_YAW         = 1, 
+    L_ELBOW_ROLL     = 2,
+    L_ELBOW_YAW      = 3, 
+    R_ELBOW_ROLL     = 4, 
+    R_ELBOW_YAW      = 5, 
+    L_WRIST_YAW      = 6, 
+    R_WRIST_YAW      = 7, 
+    L_SHOULDER_PITCH = 8, 
+    L_SHOULDER_ROLL  = 9, 
+    R_SHOULDER_PITCH = 10, 
+    R_SHOULDER_ROLL  = 11, 
+    HIP_PITCH        = 12, 
+    HIP_ROLL         = 13, 
+    KNEE_PITCH       = 14,
+    WHEEL_FR         = 15, 
+    WHEEL_FL         = 17, 
+    WHEEL_B          = 18, 
+
+    JOINTS_NUM       = 19
+};
 
 namespace AL
 {
@@ -33,13 +59,17 @@ class Pepperhead : public AL::ALModule
         // After that you may add all your bind method.
         
         // moves the head up and down - advertise this fcn to others
-        void moveHead();
+        void moveJoint(const int &joint_id, const float &value);
 
     private:
-        void setHeadStiffness(const float &value);
+        void setJointStiffness(const int &joint_id, const float &value);
 
-        //AlMotionProxy to call commands from motion module on the robot
-        boost::shared_ptr<AL::ALMotionProxy> motion;
+        std::vector<std::string> joint_names_;
+        
+        boost::shared_ptr<AL::DCMProxy>           dcm_proxy;
+        boost::shared_ptr<AL::ALMemoryProxy>      memory_proxy;
+        boost::shared_ptr<AL::ALMemoryFastAccess> access_sensor_values;
+        
 };
 #endif // PEPPERHEAD_H
 

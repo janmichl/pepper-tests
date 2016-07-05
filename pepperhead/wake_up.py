@@ -21,13 +21,11 @@ if __name__ == "__main__":
     print("----- Started")
 
     try:
-        pepperhead_proxy = ALProxy("Pepperhead", options.IP, options.PORT)
+        motion_proxy = ALProxy("ALMotion", options.IP, options.PORT)
     except Exception, e:
-        print("Error when creating proxy")
+        print("Could not create proxy to ALMotion")
         print(str(e))
         exit(1)
 
-    print("----- Proxy was created")
-
-    pepperhead_proxy.moveJoint(0, 1.0)
+    motion_proxy.wakeUp()
 
